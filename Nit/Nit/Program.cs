@@ -10,9 +10,9 @@ namespace Nit
     {
         static void Main(string[] args)
         {
-            string[] FirstRow = new string[3];
-            string[] SecondRow = new string[5];
-            string[] ThirdRow = new string[7];
+            string[] HeapA = new string[3];
+            string[] HeapB = new string[5];
+            string[] HeapC = new string[7];
         }
     }
 }
