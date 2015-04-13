@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nit
 {
-    class ComputerPlayer
+    class RandomComputer
     {
         int HeapA = 3;
         int HeapB = 5;
@@ -22,19 +22,6 @@ namespace Nit
         public int drawSticks(int max)
         {
             Sticks = new Random().Next(max);
-                foreach(KeyValuePair<Moves,float> move in Moves)
-                {
-                    if(move.Value > 0)
-                    {
-                        if(move.Key.b.HA == this.HeapA && move.Key.b.HB == this.HeapB && move.Key.b.HC == this.HeapC)
-                        {
-                            Sticks = move.Key.sticks;
-                            Console.WriteLine("Matched");
-                            break;
-                        }
-                    }
-                }
-                Console.WriteLine(Sticks);
             return Sticks;
         }
 
@@ -105,24 +92,12 @@ namespace Nit
                 }
             }
 
-            foreach (KeyValuePair<Moves, float> move in Moves)
-            {
-                if (move.Value > 0)
-                {
-                    if (move.Key.b.HA == this.HeapA && move.Key.b.HB == this.HeapB && move.Key.b.HC == this.HeapC)
-                    {
-                        this.Heap = move.Key.Heap;
-                        Console.WriteLine("Match");
-                        break;
-                    }
-                }
-            }
             return Heap;
         }
 
         public Moves getMove(int max, int heap)
         {
-            return new Moves() { Heap = heap, sticks = drawSticks(max) , b = new BoardState(){HA = this.HeapA, HB = this.HeapB, HC = this.HeapC }, Move = this.move };
+            return new Moves() { Heap = chooseHeap(), sticks = drawSticks(max), b = new BoardState() { HA = this.HeapA, HB = this.HeapB, HC = this.HeapC }, Move = this.move };
         }
 
         public void setHeaps(int HeapASize, int HeapBSize, int HeapCSize)
@@ -131,7 +106,7 @@ namespace Nit
             HeapB = HeapBSize;
             HeapC = HeapCSize;
             move++;
-            Moves g = new Moves() { Heap = this.Heap, sticks = this.Sticks, b = new BoardState() {HA = this.HeapA, HB = this.HeapB, HC = this.HeapC }, Move = this.move };
+            Moves g = new Moves() { Heap = this.Heap, sticks = this.Sticks, b = new BoardState() { HA = this.HeapA, HB = this.HeapB, HC = this.HeapC }, Move = this.move };
             tempMoves.Add(g);
         }
 
@@ -141,10 +116,10 @@ namespace Nit
             HeapB = 5;
             HeapC = 7;
             games++;
-            if(win)
+            if (win)
             {
                 wins++;
-                foreach(Moves LM in tempMoves)
+                foreach (Moves LM in tempMoves)
                 {
                     LM.setScore(((float)(LM.Move)) / tempMoves.Count());
                     Moves.Add(LM, LM.getBoardScore());
@@ -153,9 +128,9 @@ namespace Nit
             }
             else
             {
-                foreach(Moves legalMove in tempMoves)
+                foreach (Moves legalMove in tempMoves)
                 {
-                    legalMove.setScore(((float)-(legalMove.Move))/tempMoves.Count);
+                    legalMove.setScore(((float)-(legalMove.Move)) / tempMoves.Count);
                     Moves.Add(legalMove, legalMove.getBoardScore());
                 }
                 tempMoves.Clear();
@@ -165,7 +140,7 @@ namespace Nit
 
         public void otherPlayerMoved()
         {
-            if(movedLast)
+            if (movedLast)
             {
                 movedLast = false;
             }
