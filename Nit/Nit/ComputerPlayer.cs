@@ -8,112 +8,99 @@ namespace Nit
 {
     class ComputerPlayer
     {
-        int HeapA = 3;
-        int HeapB = 5;
-        int HeapC = 7;
-        int move = 0;
-        Dictionary<Moves, float> Moves = new Dictionary<Moves, float>();
-        List<Moves> tempMoves = new List<Moves>();
-        int Sticks = 0;
-        int Heap = 0;
-        int games = 0;
-        int wins = 0;
-        bool movedLast = false;
+        private int HeapA = 3;
+        private int HeapB = 5;
+        private int HeapC = 7;
+        private int move = 0;
+        private Dictionary<Moves, float> Moves = new Dictionary<Moves, float>();
+        private List<Moves> tempMoves = new List<Moves>();
+        private int Sticks = 0;
+        private int Heap = 0;
+        private int games = 0;
+        private int wins = 0;
+        private bool movedLast = false;
         public int drawSticks(int max)
         {
+            Moves key = null;
             Sticks = new Random().Next(max);
-                foreach(KeyValuePair<Moves,float> move in Moves)
+            float score = 0;
+            foreach (KeyValuePair<Moves, float> move in Moves)
+            {
+                if (move.Key.getBoardScore() > 0)
                 {
-                    if(move.Value > 0)
+                    if (move.Key.b.HA1 == this.HeapA && move.Key.b.HB1 == this.HeapB && move.Key.b.HC1 == this.HeapC)
                     {
-                        if(move.Key.b.HA == this.HeapA && move.Key.b.HB == this.HeapB && move.Key.b.HC == this.HeapC)
-                        {
-                            Sticks = move.Key.sticks;
-                            Console.WriteLine("Matched");
-                            break;
-                        }
+                        score = move.Key.getBoardScore() > score ? move.Key.getBoardScore() : score;
+                        score = move.Key.getBoardScore() == 1 ? move.Key.getBoardScore() : score;
                     }
                 }
-                Console.WriteLine(Sticks);
+            }
+            foreach(KeyValuePair<Moves,float> move in Moves)
+            {
+                if (move.Key.b.HA1 == this.HeapA && move.Key.b.HB1 == this.HeapB && move.Key.b.HC1 == this.HeapC && move.Key.getBoardScore() == score)
+                {
+                    key = move.Key;
+                }
+            }
+            if (key != null)
+            {
+                Sticks = key.sticks;
+            }
             return Sticks;
         }
 
         public int chooseHeap()
         {
-            int heap = new Random().Next(3) + 1;
-            Heap = heap;
-            bool Chose = false;
-            while (!Chose)
-            {
-                switch (heap)
+            Heap = new Random().Next(3) + 1;
+                switch (Heap)
                 {
                     case (1):
-                        if (HeapA != 0)
-                        {
-                            Chose = true;
-                            return heap;
-                        }
-                        else
-                        {
-                            heap = new Random().Next(2, 4);
-                            Heap = heap;
-                        }
+                        Heap = HeapA == 0 ? new Random().Next(2, 4) : Heap;
                         break;
                     case (2):
-                        if (HeapB != 0)
-                        {
-                            Chose = true;
-                            return heap;
-                        }
-                        else
+                        if (HeapB == 0)
                         {
                             if (HeapA == 0 && HeapB == 0)
                             {
-                                heap = 3;
+                                Heap = 3;
                             }
                             else if (HeapB == 0 && HeapC == 0)
                             {
-                                heap = 1;
+                                Heap = 1;
                             }
                             else
                             {
-                                heap = new Random().Next(100);
-                                if (heap > 50)
+                                Heap = new Random().Next(100);
+                                if (Heap > 50)
                                 {
-                                    heap = 1;
+                                    Heap = 1;
                                 }
                                 else
                                 {
-                                    heap = 3;
+                                    Heap = 3;
                                 }
                             }
-                            Heap = heap;
-                        }
-                        break;
-                    case (3):
-                        if (HeapC != 0)
-                        {
-                            Chose = true;
-                            return heap;
                         }
                         else
                         {
-                            heap = new Random().Next(2) + 1;
-                            Heap = heap;
+                            return Heap;
+                            
                         }
                         break;
-                }
+                    case (3):
+                        Heap = HeapC == 0 ? new Random().Next(2) + 1 : Heap;
+                        break;
+                
             }
-
+            float score = 0;
             foreach (KeyValuePair<Moves, float> move in Moves)
             {
                 if (move.Value > 0)
                 {
-                    if (move.Key.b.HA == this.HeapA && move.Key.b.HB == this.HeapB && move.Key.b.HC == this.HeapC)
+                    if (move.Key.b.HA1 == this.HeapA && move.Key.b.HB1 == this.HeapB && move.Key.b.HC1 == this.HeapC)
                     {
-                        this.Heap = move.Key.Heap;
-                        Console.WriteLine("Match");
-                        break;
+                        score = move.Key.getBoardScore() > score ? move.Key.getBoardScore() : score;
+                        score = move.Key.getBoardScore() == 1 ? move.Key.getBoardScore() : score;
                     }
                 }
             }
@@ -122,7 +109,7 @@ namespace Nit
 
         public Moves getMove(int max, int heap)
         {
-            return new Moves() { Heap = heap, sticks = drawSticks(max) , b = new BoardState(){HA = this.HeapA, HB = this.HeapB, HC = this.HeapC }, Move = this.move };
+            return new Moves() { Heap = heap, sticks = drawSticks(max) , b = new BoardState(){HA1 = this.HeapA, HB1 = this.HeapB, HC1 = this.HeapC }, Move = this.move };
         }
 
         public void setHeaps(int HeapASize, int HeapBSize, int HeapCSize)
@@ -131,8 +118,8 @@ namespace Nit
             HeapB = HeapBSize;
             HeapC = HeapCSize;
             move++;
-            Moves g = new Moves() { Heap = this.Heap, sticks = this.Sticks, b = new BoardState() {HA = this.HeapA, HB = this.HeapB, HC = this.HeapC }, Move = this.move };
-            tempMoves.Add(g);
+            Moves newMove = new Moves() { Heap = this.Heap, sticks = this.Sticks, b = new BoardState() {HA1 = this.HeapA, HB1 = this.HeapB, HC1 = this.HeapC }, Move = this.move };
+            tempMoves.Add(newMove);
         }
 
         public void newGame(bool win)
@@ -144,10 +131,10 @@ namespace Nit
             if(win)
             {
                 wins++;
-                foreach(Moves LM in tempMoves)
+                foreach(Moves legalMove in tempMoves)
                 {
-                    LM.setScore(((float)(LM.Move)) / tempMoves.Count());
-                    Moves.Add(LM, LM.getBoardScore());
+                    legalMove.setScore(((float)(legalMove.Move)) / tempMoves.Count());
+                    Moves.Add(legalMove , legalMove.getBoardScore());
                 }
                 tempMoves.Clear();
             }
@@ -165,14 +152,7 @@ namespace Nit
 
         public void otherPlayerMoved()
         {
-            if(movedLast)
-            {
-                movedLast = false;
-            }
-            else
-            {
-                movedLast = true;
-            }
+            movedLast = movedLast ? false : true;
         }
 
         public bool getMovedLast()
@@ -186,8 +166,3 @@ namespace Nit
         }
     }
 }
-//total moves
-//move reference
-//board state
-//board rating
-//

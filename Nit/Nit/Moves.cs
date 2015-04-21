@@ -16,12 +16,12 @@ namespace Nit
 
         public float getBoardScore()
         {
-            return b.Score;
+            return b.Score1;
         }
 
         public void setScore(float score)
         {
-            b.Score = score;
+            b.Score1 = score;
         }
     }
 }
