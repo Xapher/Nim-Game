@@ -9,6 +9,7 @@ namespace Nit
 {
     class Program
     {
+<<<<<<< HEAD
         static bool play = true;
         static int Player = 1;
         static string[] HeapA = { "|", "|", "|" };
@@ -18,33 +19,52 @@ namespace Nit
         static ComputerPlayer Computer1 = new ComputerPlayer();
         static ComputerPlayer Computer2 = new ComputerPlayer();
         static RandomComputer RandComp = new RandomComputer();
+=======
+>>>>>>> origin/master
         static void Main(string[] args)
         {
             Console.WriteLine("1. 1P V 2P");
             Console.WriteLine("2. 1P V CPU");
             Console.WriteLine("3. CPU V CPU");
             string Input = Console.ReadLine();
+<<<<<<< HEAD
+=======
+            Game nim = new Game();
+>>>>>>> origin/master
             switch (Input)
             {
                 case ("1"):
                     Console.WriteLine("Player 1 goes first, Please pick any number of sticks to take from a heap.");
                     Program prog = new Program();
+<<<<<<< HEAD
                     prog.Play(false,false);
+=======
+                    nim.Play(false, false);
+>>>>>>> origin/master
                     break;
                 case ("2"):
                     Console.WriteLine("Player 1 goes first, Please pick any number of sticks to take from a heap.");
                     Program prog2 = new Program();
+<<<<<<< HEAD
                     prog2.Play(true, false);
                     break;
                 case ("3"):
                     Program prog3 = new Program();
                     prog3.Play(false, true);
+=======
+                    nim.Play(true, false);
+                    break;
+                case ("3"):
+                    Program prog3 = new Program();
+                    nim.Play(false, true);
+>>>>>>> origin/master
                     break;
             }
 
 
 
         }
+<<<<<<< HEAD
 
         public void Play(bool Computer, bool cvc)
         {
@@ -465,6 +485,8 @@ namespace Nit
             }
             Console.WriteLine();
         }
+=======
+>>>>>>> origin/master
     }
 }
 

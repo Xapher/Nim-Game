@@ -97,7 +97,11 @@ namespace Nit
 
         public Moves getMove(int max, int heap)
         {
+<<<<<<< HEAD
             return new Moves() { Heap = chooseHeap(), sticks = drawSticks(max), b = new BoardState() { HA = this.HeapA, HB = this.HeapB, HC = this.HeapC }, Move = this.move };
+=======
+            return new Moves() { Heap = chooseHeap(), sticks = drawSticks(max), b = new BoardState() { HA1 = this.HeapA, HB1 = this.HeapB, HC1 = this.HeapC }, Move = this.move };
+>>>>>>> origin/master
         }
 
         public void setHeaps(int HeapASize, int HeapBSize, int HeapCSize)
@@ -106,7 +110,11 @@ namespace Nit
             HeapB = HeapBSize;
             HeapC = HeapCSize;
             move++;
+<<<<<<< HEAD
             Moves g = new Moves() { Heap = this.Heap, sticks = this.Sticks, b = new BoardState() { HA = this.HeapA, HB = this.HeapB, HC = this.HeapC }, Move = this.move };
+=======
+            Moves g = new Moves() { Heap = this.Heap, sticks = this.Sticks, b = new BoardState() { HA1 = this.HeapA, HB1 = this.HeapB, HC1 = this.HeapC }, Move = this.move };
+>>>>>>> origin/master
             tempMoves.Add(g);
         }
 
